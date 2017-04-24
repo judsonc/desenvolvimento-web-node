@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<head>
+  <meta charset='utf-8'>
+  <title>Home</title>
+</head>
+<body>
+  <h1>Teste Socket.io</h1>
+  <p>Olhe o console do navegador</p>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js'></script>
+  <script type='text/javascript'>
+    const socket = io('http://localhost:3001')
+    socket.on('connect', () => console.log('pegou'))
+    socket.on('action', (msg) => console.log('action -- ', msg))
+
+    socket.emit('action', { type: '/get/tweets/' })
+    socket.emit('action', {
+      type: '/post/tweet/',
+      data: {
+        usuario: {
+      		nome: 'Toin',
+      		sobrenome: 'José',
+      		username: 'diegoect',
+          foto: 'http://placehold.it/100x100',
+      	},
+      	texto: 'bora glr',
+      	likes: {
+      		total: 1
+      	},
+      }
+    })
+
+
+  </script>
+</body>
