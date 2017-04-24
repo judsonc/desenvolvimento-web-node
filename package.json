@@ -1,0 +1,24 @@
+{
+  "name": "desenvolvimento-web-node",
+  "version": "0.1.0",
+  "description": "API node com socket.io para armazenar tweets",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/judsonc/desenvolvimento-web-node.git"
+  },
+  "keywords": [
+    "node",
+    "api",
+    "socket.io"
+  ],
+  "author": "Judson Costa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/judsonc/desenvolvimento-web-node/issues"
+  },
+  "homepage": "https://github.com/judsonc/desenvolvimento-web-node#readme"
+}
