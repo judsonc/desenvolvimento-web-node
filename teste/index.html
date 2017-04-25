@@ -10,9 +10,9 @@
   <script type='text/javascript'>
     const socket = io('http://localhost:3001')
     socket.on('connect', () => console.log('Conectado!'))
-    socket.on('/get/tweets/', (data) => console.log('/get/tweets/', data))
+    socket.on('todosTweets', (data) => console.log('todosTweets - ', data))
 
-    socket.emit('/get/tweets/')
+    socket.emit('pedirTweets')
 
     let tweet = {
       usuario: {
@@ -23,6 +23,6 @@
     	},
     	texto: 'eae glr',
     }
-    socket.emit('/post/tweet/', tweet)
+    socket.emit('addTweet', tweet)
   </script>
 </body>
