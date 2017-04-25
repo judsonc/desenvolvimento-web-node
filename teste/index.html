@@ -9,26 +9,20 @@
   <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js'></script>
   <script type='text/javascript'>
     const socket = io('http://localhost:3001')
-    socket.on('connect', () => console.log('pegou'))
-    socket.on('action', (msg) => console.log('action -- ', msg))
+    socket.on('connect', () => console.log('Conectado!'))
+    socket.on('/get/tweets/', (data) => console.log('/get/tweets/', data))
 
-    socket.emit('action', { type: '/get/tweets/' })
-    socket.emit('action', {
-      type: '/post/tweet/',
-      data: {
-        usuario: {
-      		nome: 'Toin',
-      		sobrenome: 'José',
-      		username: 'diegoect',
-          foto: 'http://placehold.it/100x100',
-      	},
-      	texto: 'bora glr',
-      	likes: {
-      		total: 1
-      	},
-      }
-    })
+    socket.emit('/get/tweets/')
 
-
+    let tweet = {
+      usuario: {
+    		nome: 'zé',
+    		sobrenome: 'José',
+    		email: 'ze@sa.sk',
+        foto: 'http://placehold.it/100x100',
+    	},
+    	texto: 'eae glr',
+    }
+    socket.emit('/post/tweet/', tweet)
   </script>
 </body>

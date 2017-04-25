@@ -1,17 +1,17 @@
+'use strict'
+
 class Tweet {
   constructor(body) {
     this.usuario = {
   		nome: body.usuario.nome,
   		sobrenome: body.usuario.sobrenome,
-  		username: body.usuario.username,
+  		email: body.usuario.email,
       foto: body.usuario.foto,
   	}
-  	this.data_publicacao = new Date()
   	this.texto = body.texto
-  	this.likes = {
-  		total: body.likes.total,
-  		// usuarios: body.likes.usuarios,
-  	}
+  	this.likes = body.likes || 0
+    this.data_publicacao = new Date()
+    this.id = this.data_publicacao.getTime()
   }
 }
 
