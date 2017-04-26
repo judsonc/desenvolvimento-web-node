@@ -1,12 +1,10 @@
 'use strict'
 
-// Importação do socket.io e inicialização
-const io = require('socket.io')(3001)
+const fs = require('fs') // Módulo de acesso à arquivos
+const io = require('socket.io')(3001) // Importação do socket.io e inicialização
 console.log('Servidor iniciado na porta 3001!')
-// importação do modelo Tweet
-const Tweet = require('./model/tweet')
 
-let listaTweets = []
+const Tweet = require('./model/tweet') // importação do modelo Tweet
 
 io.on('connection', conectado)
 function conectado(socket) {
@@ -15,16 +13,25 @@ function conectado(socket) {
   // Retorna todos os tweets
   socket.on('pedirTweets', pedirTweets)
   function pedirTweets() {
-    socket.emit('todosTweets', listaTweets)
-    console.log('tweets enviados - ', listaTweets)
+    fs.readFile('./tweets.json', (err, tweets) => {
+      let listaTweets = JSON.parse(tweets)
+      socket.emit('todosTweets', listaTweets)
+      console.log('tweets enviados - ', listaTweets)
+    })
   }
 
   // Insere um tweet
-  socket.on('addTweet', addTweet)
-  function addTweet(data) {
+  socket.on('novoTweet', novoTweet)
+  function novoTweet(data) {
     let novoTweet = new Tweet(data)
-    listaTweets.push(novoTweet)
-    console.log('um tweet inserido ', novoTweet)
-    io.emit('todosTweets - ', listaTweets)
+    fs.readFile('./tweets.json', (err, tweets) => {
+      let listaTweets = JSON.parse(tweets)
+      listaTweets.push(novoTweet)
+      fs.writeFile('./tweets.json', JSON.stringify(listaTweets, null, 2), (err) => {
+        if (err) console.log(err)
+        console.log('um tweet inserido - ', novoTweet)
+        io.emit('todosTweets', listaTweets)
+      })
+    })
   }
 }
