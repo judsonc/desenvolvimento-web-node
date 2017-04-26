@@ -8,7 +8,13 @@
   <p>Olhe o console do navegador</p>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js'></script>
   <script type='text/javascript'>
-    const socket = io('http://localhost:3001')
+    // ################################################################################
+    // ##################### WARNING #####################
+    // Faça emit('curtirTweet') apenas se já tiver dado emit('novoTweet') e vice-versa.
+    // Ou seja, faça um desses dois emits por vez.
+    // ################################################################################
+
+    const socket = io('https://domotica-node.herokuapp.com/')
     socket.on('connect', () => console.log('Conectado!'))
 
     // Retorna todos os tweets
@@ -28,14 +34,8 @@
 
     // Curte um tweet
     const idTweet = {
-      id : 1493172485916 // Subsitua o id corretamente
+      id : 1493173447278 // Substitua o id corretamente
     }
-    socket.emit('curtirTweet', idTweet)
-
-    // #################
-    // #### WARNING ####
-    // Faça emit('curtirTweet') apenas se já tiver dado emit('novoTweet') e vice-versa.
-    // Ou seja, faça um desses dois emits por vez.
-    // #################
+    // socket.emit('curtirTweet', idTweet)
   </script>
 </body>

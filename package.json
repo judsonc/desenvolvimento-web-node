@@ -1,6 +1,6 @@
 {
   "name": "desenvolvimento-web-node",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "API com Node.js e Socket.io para gerencianemto de tweets.",
   "main": "app.js",
   "scripts": {
