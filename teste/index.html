@@ -10,19 +10,32 @@
   <script type='text/javascript'>
     const socket = io('http://localhost:3001')
     socket.on('connect', () => console.log('Conectado!'))
+
+    // Retorna todos os tweets
+    socket.emit('pedirTweets')
     socket.on('todosTweets', (data) => console.log('todosTweets - ', data))
 
-    socket.emit('pedirTweets')
-
-    let tweet = {
+    // Insere um tweet
+    const novoTweet = {
       usuario: {
-    		nome: 'zé',
-    		sobrenome: 'José',
-    		email: 'ze@sa.sk',
-        foto: 'http://placehold.it/100x100',
+    		nome      : 'João',
+    		sobrenome : 'Silva',
+        foto      : 'http://placehold.it/100x100',
     	},
-    	texto: 'eae glr',
+    	texto: 'É hoje!!!',
     }
-    socket.emit('novoTweet', tweet)
+    // socket.emit('novoTweet', novoTweet)
+
+    // Curte um tweet
+    const idTweet = {
+      id : 1493172485916 // Subsitua o id corretamente
+    }
+    socket.emit('curtirTweet', idTweet)
+
+    // #################
+    // #### WARNING ####
+    // Faça emit('curtirTweet') apenas se já tiver dado emit('novoTweet') e vice-versa.
+    // Ou seja, faça um desses dois emits por vez.
+    // #################
   </script>
 </body>
