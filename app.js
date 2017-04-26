@@ -1,8 +1,9 @@
 'use strict'
 
-const fs = require('fs') // Módulo de acesso à arquivos
-const io = require('socket.io')(3001) // Importação do socket.io e inicialização
-console.log('Servidor iniciado na porta 3001!')
+const fs   = require('fs') // Módulo de acesso à arquivos
+const port = process.env.PORT || 3001
+const io   = require('socket.io')(port) // Importação do socket.io e inicialização
+console.log(`Servidor iniciado! Na porta ${port}`)
 
 const Tweet = require('./model/tweet') // importação do modelo Tweet
 
