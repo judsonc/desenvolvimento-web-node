@@ -15,7 +15,7 @@ API com Node.js e Socket.io para gerencianemto de tweets.
   "usuario": {
     "nome": "Alex",
     "sobrenome": "Jr.",
-    "foto": "http://placehold.it/100x100"
+    "foto": "https://cdn4.iconfinder.com/data/icons/STROKE/communications/png/400/avatar.png"
   },
   "texto": "Java é muito chato."
 }
