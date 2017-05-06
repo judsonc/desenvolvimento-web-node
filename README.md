@@ -10,6 +10,7 @@ API com Node.js e Socket.io para gerencianemto de tweets.
 
 * Evento "novoTweet"
 
+``` json
 {
   "usuario": {
     "nome": "Alex",
@@ -18,6 +19,7 @@ API com Node.js e Socket.io para gerencianemto de tweets.
   },
   "texto": "Java é muito chato."
 }
+```
 
 ** Retorno no "todosTweets" com tweets atualizados
 
@@ -26,9 +28,11 @@ API com Node.js e Socket.io para gerencianemto de tweets.
 
 * Evento "curtirTweet"
 
+``` json
 {
   "id": 12543213
 }
+```
 
 ** Retorno no "todosTweets" com tweets atualizados
 
@@ -37,12 +41,13 @@ API com Node.js e Socket.io para gerencianemto de tweets.
 
 * Evento "todosTweets"
 
+``` json
 [
   {
     "usuario": {
       "nome": "Alex",
       "sobrenome": "Jr.",
-      "foto": "http://placehold.it/100x100"
+      "foto": "https://cdn1.iconfinder.com/data/icons/ninja-things-1/1772/ninja-simple-512.png"
     },
     "texto": "Java é muito chato.",
     "likes": 3,
@@ -53,7 +58,7 @@ API com Node.js e Socket.io para gerencianemto de tweets.
     "usuario": {
       "nome": "João",
       "sobrenome": "Silva",
-      "foto": "http://placehold.it/100x100"
+      "foto": "https://cdn4.iconfinder.com/data/icons/STROKE/communications/png/400/avatar.png"
     },
     "texto": "Json é muito simples.",
     "likes": 2,
@@ -61,3 +66,4 @@ API com Node.js e Socket.io para gerencianemto de tweets.
     "id": 1493166637840
   }
 ]
+```
