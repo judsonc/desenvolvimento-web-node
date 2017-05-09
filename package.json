@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/judsonc/desenvolvimento-web-node#readme",
   "dependencies": {
-    "socket.io": "^1.7.3"
+    "socket.io": "^1.7.4"
   }
 }
