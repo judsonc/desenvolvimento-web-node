@@ -5,7 +5,7 @@ console.log(`Servidor iniciado! Na porta ${port}`)
 // ========= ========= ========= ========= ========= ========= ========= ========= //
 
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://iotlab:iotlab@ds217898.mlab.com:17898/cursolii')
+mongoose.connect('mongodb://192.168.0.109:27017/cursolii')
 mongoose.connection.on('error', err => console.error(`MongoDB: erro na conexão - ${err.stack}`))
 
 // ========= ========= ========= ========= ========= ========= ========= ========= //
