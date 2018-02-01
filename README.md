@@ -1,6 +1,6 @@
 # API Tweets
 
-API com Node.js e Socket.io para gerencianemto de tweets.
+API com Node.js e Socket.io para gerencianemto de tweets, agora com MongoDB.
 
 
 ## WEBSOCKET

@@ -1,10 +1,10 @@
 {
   "name": "desenvolvimento-web-node",
-  "version": "0.1.3",
-  "description": "API com Node.js e Socket.io para gerencianemto de tweets.",
+  "version": "0.1.4",
+  "description": "API com Node.js e Socket.io para gerencianemto de tweets, agora com MongoDB.",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/judsonc/desenvolvimento-web-node#readme",
   "dependencies": {
+    "mongoose": "^5.0.3",
     "socket.io": "^1.7.4"
   }
 }

@@ -14,7 +14,7 @@
     // Ou seja, faça um desses dois emits por vez.
     // ################################################################################
 
-    const socket = io('https://domotica-node.herokuapp.com/')
+    const socket = io('http://localhost:3001/')
     socket.on('connect', () => console.log('Conectado!'))
 
     // Retorna todos os tweets
