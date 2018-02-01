@@ -4,7 +4,7 @@
   "description": "API com Node.js e Socket.io para gerencianemto de tweets, agora com MongoDB.",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
