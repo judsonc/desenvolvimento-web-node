@@ -1,79 +1,68 @@
+const graphqlHTTP = require('express-graphql') // Importação do graphql
+const express = require('express')() // Importação do express
+const io = require('socket.io')() // Importação do socket.io
+const cors = require('cors')
+
+const database = require('./database')
+const Tweet = require('./models/Tweet')
+const Author = require('./models/Author')
+const schema = require('./schema')
 const port = process.env.PORT || 3001
-const io   = require('socket.io')(port) // Importação do socket.io e inicialização
-console.log(`Servidor iniciado! Na porta ${port}`)
 
-// ========= ========= ========= ========= ========= ========= ========= ========= //
+express.use(cors())
+express.use('/graphql', graphqlHTTP({ schema, graphiql: true }));
 
-const mongoose = require('mongoose')
-mongoose.connect('mongodb://192.168.0.109:27017/cursolii')
-mongoose.connection.on('error', err => console.error(`MongoDB: erro na conexão - ${err.stack}`))
-
-// ========= ========= ========= ========= ========= ========= ========= ========= //
-
-const modelTweet = new mongoose.Schema(
-  {
-    usuario: {
-      nome: {
-        type: String,
-        trim: true,
-        required: true,
-      },
-      sobrenome: {
-        type: String,
-        trim: true,
-        required: true,
-      },
-      foto: {
-        type: String,
-        trim: true,
-        required: true,
-      },
-    },
-    data_publicacao: {
-      type: Date,
-      default: Date.now,
-    },
-    texto: {
-      type: String,
-    },
-    likes: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-  },
-)
-
-const Tweet = mongoose.model('tweet', modelTweet)
+database.then(() => {
+  const server = express.listen(port, () => {
+    io.attach(server)
+    console.log(`Servidor iniciado! Na porta ${port}`)
+  })
+}).catch(() => process.exit(1))
 
 // ========= ========= ========= ========= ========= ========= ========= ========= //
 
 const sendData = async socket => {
-  const listaTweets = await Tweet.find({}, { __v: 0 }).sort({ data_publicacao: -1 })
-  socket.emit('todosTweets', listaTweets)
-  console.log('\nTweets enviados - ', listaTweets)
+  const listTweets = Tweet.find({}, { _id: 0, __v: 0 }).sort({ data_publicacao: -1 }).lean()
+  const authorTweets = await Promise.all((await listTweets).map(async ({ codAuthor, ...tweet }) => {
+    const usuario =  await Author.findOne({ codAuthor }, { _id: 0 }).select('nome sobrenome foto')
+    return { ...tweet, usuario }
+  }))
+  socket.emit('tweets', authorTweets)
+  console.log('\n\nTweets enviados - ', authorTweets)
 }
 
 io.on('connection', socket => {
-  console.log('\nRequisição - ', new Date(), socket.id)
+  console.log('Requisição - ', new Date(), socket.id)
 
   // Retorna todos os tweets
-  socket.on('pedirTweets', () => sendData(socket))
+  socket.on('getTweets', () => sendData(socket))
   
   // Insere um tweet
-  socket.on('novoTweet', async data => {
-    const novoTweet = new Tweet(data)
-    await novoTweet.save()
-    console.log('\nUm tweet inserido - ', novoTweet)
+  socket.on('addTweet', async data => {
+    const newTweet = new Tweet(data)
+    await newTweet.save()
+    console.log('\n\nUm tweet inserido - ', newTweet)
     sendData(io)
   })
   
   // Curte um tweet
-  socket.on('curtirTweet', async data => {
-    const tweet = await Tweet.findById(data.id)
-    tweet.likes += 1
-    await tweet.save()
-    console.log('\nUm tweet curtido - ', data.id, tweet)
+  socket.on('likeTweet', async data => {
+    const { codTweet } = data
+    const tweet = await Tweet.findOneAndUpdate({ codTweet }, { $inc:{ likes: 1 } }, { new: true })
+    console.log('\n\nUm tweet curtido - ', tweet)
     sendData(io)
+  })
+
+  // Insere um autor
+  socket.on('addAuthor', async data => {
+    const author = await Author.findOne(data)
+    if (author) {
+      socket.emit('author', author.codAuthor)
+    } else {
+      const newAuthor = new Author(data)
+      await newAuthor.save()
+      console.log('\n\nUm autor inserido - ', newAuthor)
+      socket.emit('author', newAuthor.codAuthor)
+    }
   })
 })
