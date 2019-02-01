@@ -52,6 +52,7 @@ exports.Query = {
   tweets: {
     type: new GraphQLList(TweetType),
     resolve(){
+      console.log('getTweets');
       return Tweet.find();
     }
   },
@@ -78,6 +79,8 @@ exports.Mutation = {
       codAuthor: { type: GraphQLString },
     },
     resolve(_, args){
+      console.log('add', args);
+      
       const tweet = new Tweet(args)
       return tweet.save()
     }
@@ -98,9 +101,15 @@ exports.Mutation = {
       sobrenome: { type: GraphQLString },
       foto: { type: GraphQLString },
     },
-    resolve(_, args){
-      const author = new Author(args)
-      return author.save()
+    async resolve(_, args){
+      const author = await Author.findOne(args)
+      if (author) {
+        return author
+      } else {
+        const newAuthor = new Author(args)
+        return newAuthor.save()
+        
+      }
     }
   }
 }
